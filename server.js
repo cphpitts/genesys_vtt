@@ -15,6 +15,9 @@ var io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
     console.log("new connection: " + socket.id);
+    var newID = Math.floor(Math.random() * 999 + 1);
+    console.log("Player ID: " + newID);
+    socket.broadcast.emit('newPlayer', newID);
     
 
     socket.on('dice', diceMsg);
@@ -36,15 +39,9 @@ io.on('connection', (socket) => {
 function newConnection(socket) {
     console.log("new connection: " + socket.id);
 
-    socket.on('mouse', mouseMsg);
     socket.on('dice', diceMsg);
     socket.on('roll', updateDice);
 
-    function mouseMsg(data) {
-        socket.broadcast.emit('mouse', data); //SEND TO ALL BUT SENDING CLIENT
-        //io.sockets.emit('mouse', data);  |SEND TO ALL CLIENTS
-        console.log(data);
-    }
 
     function diceMsg(value) {
         socket.broadcast.emit('dice', value);
