@@ -26,6 +26,7 @@ io.on('connection', (socket) => {
 
 
     function diceMsg(value) {
+        console.log("newDie: " + value);
         socket.broadcast.emit('dice', value);
     }
 

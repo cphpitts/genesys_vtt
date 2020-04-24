@@ -13,23 +13,25 @@
             <input type="text" id="idInput">
             <button onclick="resetId()">Reset Name</button>
         </div>
-        <div id="diceTray" style="display: block; width: 200px; height:200px;"></div>
-        <div id="polyhedral">
-            <button onclick="addDie(4)">d4</button><br />
-            <button onclick="addDie(6)">d6</button><br />
-            <button onclick="addDie(8)">d8</button><br />
-            <button onclick="addDie(10)">d10</button><br />
-            <button onclick="addDie(12)">d12</button><br />
-            <button onclick="addDie(20)">d20</button><br />
+        <div id="diceTray" style="display: block; width: 1000px; height:200px;"></div>
+        <div id="polyhedral" class="dieBar">
+            <button onclick="addDie(4)">d4</button>
+            <button onclick="addDie(6)">d6</button>
+            <button onclick="addDie(8)">d8</button>
+            <button onclick="addDie(10)">d10</button>
+            <button onclick="addDie(12)">d12</button>
+            <button onclick="addDie(20)">d20</button>
+        </div><br />
+        <div id="genesys" class="dieBar">
+            <button class="boost" onclick="addDie(6, 'boost')">Boost</button>
+            <button class="ability" onclick="addDie(8, 'ability')">Ability</button>
+            <button class="proficiency" onclick="addDie(10, 'proficiency')">Proficiency</button>
+            <button class="setback" onclick="addDie(6, 'setback')">Setback</button>
+            <button class="difficulty" onclick="addDie(8, 'difficulty')">Difficulty</button>
+            <button class="challenge" onclick="addDie(10, 'challenge')">Challenge</button>
+        </div><br />
+        <div id="controls" class="dieBar">
             <button onclick="rollDice()">Roll</button>
-        </div>
-        <div id="genesys">
-            <button onclick="addDie(6, 'boost')">Boost</button><br />
-            <button onclick="addDie(8, 'ability')">Ability</button><br />
-            <button onclick="addDie(10, 'proficiency')">Proficiency</button><br />
-            <button onclick="addDie(6, 'setback')">Setback</button><br />
-            <button onclick="addDie(8, 'difficulty')">Difficulty</button><br />
-            <button onclick="addDie(10, 'challenge')">Challenge</button><br />
         </div>
         <div id="diceLog" style="display: block; width: 200px; height:600px; overflow:scroll;"></div>
         <script src="sketch2.js"></script>

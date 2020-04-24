@@ -1,6 +1,43 @@
 .dice {
     float: left;
     padding: 2px 5px;
-    background-color: lightgreen;
+    background-color: white;
     margin: 5px 5px;
+    border: 1px solid black;
+    height: 42px;
+    width: 40px;
+    text-align: center;
+    border-radius: 6px;
+    line-height: 40px;
+}
+
+.dieBar button {
+    margin: 0px 3px;
+    height: 35px;
+    min-width: 41px;
+    border-radius: 12px;
+    border: 0;
+    padding: 1px 13px;
+}
+.boost {
+    background-color: lightblue;
+}
+.ability {
+    background-color: green;
+    color:white;
+}
+.proficiency {
+    background-color: yellow;
+}
+.setback {
+    background-color: black;
+    color: white;
+}
+.difficulty {
+    background-color: purple;
+    color: white;
+}
+.challenge {
+    background-color: red;
+    color: white;
 }
