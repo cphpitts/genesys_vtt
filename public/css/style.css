@@ -1,0 +1,168 @@
+/* Dice Button Toolbar */
+.dieBar button {
+    margin: 10px 3px;
+    height: 35px;
+    min-width: 41px;
+    border-radius: 12px;
+    border: 0;
+    padding: 1px 13px;
+}
+.dieBar .boost {
+    background-color: lightblue;
+}
+.dieBar .ability {
+    background-color: green;
+    color:white;
+}
+.dieBar .proficiency {
+    background-color: yellow;
+}
+.dieBar .setback {
+    background-color: black;
+    color: white;
+}
+.dieBar .difficulty {
+    background-color: purple;
+    color: white;
+}
+.dieBar .challenge {
+    background-color: red;
+    color: white;
+}
+
+
+/* Dice */
+.die {
+    float: left;
+    /* padding: 2px 5px; */
+    /* background-color: white; */
+    margin: 5px 20px 5px 5px;
+    /* border: 1px solid black; */
+    height: 64px;
+    width: 51px;
+    text-align: center;
+    /* border-radius: 6px; */
+    line-height: 40px;
+    background-repeat: no-repeat;
+}
+
+.die.boost {
+    background-image: url(../media/genesys-boost.png);
+}
+.die.ability {
+    background-image: url(../media/genesys-ability.png);
+    width: 49px;
+}
+.die.proficiency {
+    background-image: url(../media/geensys-proficiency.png);
+    width: 62px;
+}
+.die.setback {
+    background-image: url(../media/genesys-setback.png);
+
+}
+.die.difficulty {
+    background-image: url(../media/genesys-difficulty.png);
+    width: 49px;
+}
+.die.challenge {
+    background-image: url(../media/genesys-challenge.png);
+    width: 62px;
+}
+
+/* BOOST AND SETBACK RESULTS */
+.die.boost[data-value="2"], 
+.die.setback[data-value="2"], 
+.die.setback[data-value="3"] {
+    background-position: -51px 0px;
+}
+
+.die.boost[data-value="3"], 
+.die.setback[data-value="4"], 
+.die.setback[data-value="5"] {
+    background-position: -101px 0px;
+}
+.die.boost[data-value="4"] {
+    background-position: -151px 0px;
+}
+.die.boost[data-value="5"] {
+    background-position: -202px 0px;
+}
+
+/* ABILITY AND DIFFICULTY RESULTS */
+.die.ability[data-value="1"],.die.ability[data-value="2"], 
+.die.difficulty[data-value="1"] {
+    background-position: -49px 0px;
+}
+.die.ability[data-value="3"], 
+.die.difficulty[data-value="2"] {
+    background-position: -99px 0px;
+}
+.die.ability[data-value="4"],.die.ability[data-value="5"], 
+.die.difficulty[data-value="3"],.die.difficulty[data-value="4"],.die.difficulty[data-value="5"] {
+    background-position: -147px 0px;
+}
+.die.ability[data-value="6"], 
+.die.difficulty[data-value="6"] {
+    background-position: -197px 0px;
+}
+.die.ability[data-value="7"], 
+.die.difficulty[data-value="7"] {
+    background-position: -245px 0px;
+}
+
+
+/* PROFICIENCY AND CHALLENGE RESULTS */
+.die.proficiency[data-value="1"],.die.proficiency[data-value="2"], 
+.die.challenge[data-value="1"],.die.challenge[data-value="2"] {
+    background-position: -61px 0px;
+}
+.die.proficiency[data-value="3"],.die.proficiency[data-value="4"], 
+.die.challenge[data-value="3"],.die.challenge[data-value="4"] {
+    background-position: -122px 0px;
+}
+.die.proficiency[data-value="5"], 
+.die.challenge[data-value="5"],.die.challenge[data-value="6"] {
+    background-position: -183px 0px;
+}
+.die.proficiency[data-value="6"],.die.proficiency[data-value="7"],.die.proficiency[data-value="8"], 
+.die.challenge[data-value="7"],.die.challenge[data-value="8"] {
+    background-position: -244px 0px;
+}
+.die.proficiency[data-value="9"],.die.proficiency[data-value="10"], 
+.die.challenge[data-value="9"],.die.challenge[data-value="10"] {
+    background-position: -305px 0px;
+}
+.die.proficiency[data-value="11"],
+.die.challenge[data-value="11"] {
+    background-position: -367px 0px;
+}
+
+/* POLY DICE */
+.die.poly {
+    font-size: 22px;
+}
+.die.poly[data-size="4"] {
+    background-image: url(../media/poly-d4.png);
+    width: 58px;
+}
+.die.poly[data-size="6"] {
+    background-image: url(../media/poly-d6.png);
+    width: 58px;
+}
+.die.poly[data-size="8"] {
+    background-image: url(../media/poly-d8.png);
+    width: 52px;
+}
+.die.poly[data-size="10"] {
+    background-image: url(../media/poly-d10.png);
+    width: 51px;
+}
+.die.poly[data-size="12"] {
+    background-image: url(../media/poly-d12.png);
+    width: 66px;
+}
+.die.poly[data-size="20"] {
+    background-image: url(../media/poly-d20.png);
+    width: 57px;
+}

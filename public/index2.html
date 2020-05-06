@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Genesys Tabletop</title>
+        <meta charset="utc-8">
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    </head>
+    <body>
+        <nav class="navbar navbar-light bg-light">
+            <span class="navbar-brand mb-0 h1">Genesys Tabletop</span>
+          </nav>
+        <div class="container">
+            <div class="row">
+              <div class="col-sm border bg-light">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="genesys-tab" data-toggle="tab" href="#genesys" role="tab" aria-controls="genesys" aria-selected="true">Genesys</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="poly-tab" data-toggle="tab" href="#poly" role="tab" aria-controls="poly" aria-selected="false">Poly</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="genesys" role="tabpanel" aria-labelledby="genesys-tab">
+                        <div id="genesys" class="dieBar">
+                            <button class="boost" data-size="6" data-type="boost">Boost</button>
+                            <button class="ability" data-size="8" data-type="ability">Ability</button>
+                            <button class="proficiency" data-size="12" data-type="proficiency">Proficiency</button>
+                            <button class="setback" data-size="6" data-type="setback">Setback</button>
+                            <button class="difficulty" data-size="8" data-type="difficulty">Difficulty</button>
+                            <button class="challenge" data-size="12" data-type="challenge">Challenge</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="poly" role="tabpanel" aria-labelledby="poly-tab">
+                        <div id="polyhedral" class="dieBar">
+                            <button data-size="4" data-type="poly">d4</button>
+                            <button data-size="6" data-type="poly">d6</button>
+                            <button data-size="8" data-type="poly">d8</button>
+                            <button data-size="10" data-type="poly">d10</button>
+                            <button data-size="12" data-type="poly">d12</button>
+                            <button data-size="20" data-type="poly">d20</button>
+                        </div>
+                    </div>
+                  </div>
+                  <hr/>
+                  <div id="controls">
+                    <button id="rollDice">Roll</button>
+                    <button id="resetDice">Reset</button>
+                    Label: <input id="rollLabel" type="text">
+                </div>
+              </div>
+              <div class="col-sm border bg-light">
+                <div id="diceTray" style="display: block; height:200px;"></div>
+              </div>
+              <div class="col-sm border bg-light">
+                <div id="diceLog" style="display: block; height:600px; overflow:scroll;"></div>
+              </div>
+            </div>
+          </div>
+
+
+
+       
+
+        
+        
+        <script src="js/scripts2.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    </body>
+</html>
