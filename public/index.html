@@ -1,39 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Node Server Test</title>
+        <title>Genesys Tabletop</title>
         <meta charset="utc-8">
         <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="css/style.css">
+
     </head>
     <body>
-        <div id="playerID">Player Name: <span></span></div>
-        <div>
-            <input type="text" id="idInput">
-            <button onclick="resetId()">Reset Name</button>
+        <nav class="navbar navbar-light bg-light">
+            <span class="navbar-brand mb-0 h1">Genesys Tabletop</span>
+          </nav>
+        <div class="container">
+            <div class="row">
+              <div class="col-sm border bg-light">
+                <div id="diceTray" style="display: block; height:200px;"></div>
+                <hr>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="genesys-tab" data-toggle="tab" href="#genesys" role="tab" aria-controls="genesys" aria-selected="true">Genesys</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="poly-tab" data-toggle="tab" href="#poly" role="tab" aria-controls="poly" aria-selected="false">Poly</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="genesys" role="tabpanel" aria-labelledby="genesys-tab">
+                        <div id="genesys" class="dieBar">
+                            <button class="boost" data-size="6" data-type="boost">Boost</button>
+                            <button class="ability" data-size="8" data-type="ability">Ability</button>
+                            <button class="proficiency" data-size="12" data-type="proficiency">Proficiency</button>
+                            <button class="setback" data-size="6" data-type="setback">Setback</button>
+                            <button class="difficulty" data-size="8" data-type="difficulty">Difficulty</button>
+                            <button class="challenge" data-size="12" data-type="challenge">Challenge</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="poly" role="tabpanel" aria-labelledby="poly-tab">
+                        <div id="polyhedral" class="dieBar">
+                            <button data-size="4" data-type="poly">d4</button>
+                            <button data-size="6" data-type="poly">d6</button>
+                            <button data-size="8" data-type="poly">d8</button>
+                            <button data-size="10" data-type="poly">d10</button>
+                            <button data-size="12" data-type="poly">d12</button>
+                            <button data-size="20" data-type="poly">d20</button>
+                        </div>
+                    </div>
+                  </div>
+                  <hr/>
+                  <div id="controls">
+                    <button id="rollDice">Roll</button>
+                    <button id="resetDice">Reset</button>
+                    Label: <input id="rollLabel" type="text">
+                </div>
+              </div>
+              <div class="col-sm border bg-light">
+                <!-- Character List -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#charInput">
+                  Add Character
+                </button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="clearChars">
+                  Clear List
+                </button>
+                <hr>
+                <div id="characterList"></div>
+
+              </div>
+              <div class="col-sm border bg-light">
+                <div id="diceLog" style="display: block; height:600px; overflow:scroll;"></div>
+              </div>
+            </div>
         </div>
-        <div id="diceTray" style="display: block; width: 1000px; height:200px;"></div>
-        <div id="polyhedral" class="dieBar">
-            <button onclick="addDie(4)">d4</button>
-            <button onclick="addDie(6)">d6</button>
-            <button onclick="addDie(8)">d8</button>
-            <button onclick="addDie(10)">d10</button>
-            <button onclick="addDie(12)">d12</button>
-            <button onclick="addDie(20)">d20</button>
-        </div><br />
-        <div id="genesys" class="dieBar">
-            <button class="boost" onclick="addDie(6, 'boost')">Boost</button>
-            <button class="ability" onclick="addDie(8, 'ability')">Ability</button>
-            <button class="proficiency" onclick="addDie(10, 'proficiency')">Proficiency</button>
-            <button class="setback" onclick="addDie(6, 'setback')">Setback</button>
-            <button class="difficulty" onclick="addDie(8, 'difficulty')">Difficulty</button>
-            <button class="challenge" onclick="addDie(10, 'challenge')">Challenge</button>
-        </div><br />
-        <div id="controls" class="dieBar">
-            <button onclick="rollDice()">Roll</button>
+          
+          <!-- TEST FOR MODAL -->
+          <!-- Button trigger modal -->
+        
+        
+        <!-- Modal -->
+        <div class="modal fade" id="charInput" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                          <label for="inputName">Character Name</label>
+                          <input type="text" class="form-control" id="inputName">
+                        </div>
+                        <div class="form-group" id="typeSelector">
+                            <label for="inputType">Character Type</label>
+                            <select class="form-control" id="inputType">
+                              <option>PC</option>
+                              <option>Minion</option>
+                              <option>Rival</option>
+                              <option>Nemesis</option>
+                            </select>
+                          </div>
+                          <div class="form-group" id="minionSize">
+                              <!-- <label for="inputName">Minion Group Size</label>
+                              <input type="text" class="form-control" id="groupSize">     -->
+                          </div>
+                        <div type="" class="btn btn-primary" id="addCharForm">Submit</div>
+                      </form>
+                </div>
+                <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
+            </div>
+            </div>
         </div>
-        <div id="diceLog" style="display: block; width: 200px; height:600px; overflow:scroll;"></div>
+
+          <!-- END MODAL -->
+       
+
+        
+        
         <script src="js/scripts.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
     </body>
 </html>

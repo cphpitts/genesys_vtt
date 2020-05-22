@@ -44,6 +44,25 @@
     /* border-radius: 6px; */
     line-height: 40px;
     background-repeat: no-repeat;
+    position: relative;
+}
+
+.die:hover::after {
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    content: "X";
+    display: block;
+    line-height: 30px;
+    text-align: center;
+    top: 50%;
+    position: absolute;
+    margin-top: -19px;
+    left: 50%;
+    margin-left: -15px;
+    border-radius: 20px;
+    font-weight: bold;
+    color: white;
 }
 
 .die.boost {
@@ -165,4 +184,33 @@
 .die.poly[data-size="20"] {
     background-image: url(../media/poly-d20.png);
     width: 57px;
+}
+
+/* MODIFY CARD DESIGN */
+.card-body {
+    padding: 1rem;
+}
+
+.card-title {
+    margin-bottom: initial;
+}
+
+span.card-subtitle {
+    font-size: 1.0rem;
+}
+
+span.card-subtitle.mb-2.pc {
+    color: green;
+}
+
+span.card-subtitle.mb-2.minion {
+    color: red;
+}
+
+span.card-subtitle.mb-2.rival {
+    color: purple;
+}
+
+span.card-subtitle.mb-2.nemesis {
+    color: peru;
 }

@@ -13,6 +13,12 @@ server.listen(PORT, function() {
 
 var io = require('socket.io')(server);
 
+function init() {
+    charId = 0;
+}
+
+init();
+
 io.on('connection', (socket) => {
     // console.log("new connection: " + socket.id);
     var newID = Math.floor(Math.random() * 999 + 1);
@@ -57,6 +63,28 @@ io.on('connection', (socket) => {
     function updateDice(updatedDice) {
         socket.broadcast.emit('updateDice', updatedDice);
     }
+
+    //NEW CHARACTER
+    socket.on('addCharacter', addCharacter);
+    function addCharacter(charInfo) {
+        charId++;
+        var cardId = 'ch' + charId;
+        io.sockets.emit('newChar', charInfo, cardId);
+    }
+    
+    //CLEAR CHARACTERS
+    socket.on('clearCharList', clearCharList);
+    function clearCharList() {
+        io.sockets.emit('clearCharList');
+    }
+
+    //REMOVE SPECIFIC CHARACTERS
+    socket.on('removeCharacter', removeCharacter);
+    function removeCharacter(cardID) {
+        io.sockets.emit('removeCharacter', cardID);
+    }
+
+    
 
 
 })
