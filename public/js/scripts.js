@@ -1,6 +1,7 @@
 //NODE
 var socket = io();
 function setup() {
+    socket.on('loadList', loadList);
     socket.on('addDie', recieveDie);
     socket.on('resetDice', resetDicePool);
     socket.on('rollDice', rollDice);
@@ -38,6 +39,20 @@ const DICELOG = document.getElementById("diceLog");
 function generateDie(size, type, value = type) {
     // return "<div class='die " + type + "' data-size='" + size + "' data-type='" + type + "'>" + value + "</div>";
     return "<div class='die " + type + "' data-size='" + size + "' data-type='" + type + "'></div>";
+}
+
+//SET INTIAL CHARLIST
+function loadList(charList) {
+    
+    var charItems = Object.keys(charList)
+    console.log(charItems);
+    var charNum = charItems.length;
+    for (i=0; i<charNum; i++) {
+        
+        charID = charItems[i];
+        console.log(charList[charID]);
+        newChar(charList[charID], charID);
+    }
 }
 
 //ADD DICE 

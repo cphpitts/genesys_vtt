@@ -15,9 +15,15 @@ var io = require('socket.io')(server);
 
 function init() {
     charId = 0;
+    charList = {};
 }
 
 init();
+
+io.on('connect', function(socket) {
+    //LOAD CURRENT CHARACTER LIST
+    socket.emit('loadList', charList);
+});
 
 io.on('connection', (socket) => {
     // console.log("new connection: " + socket.id);
@@ -41,6 +47,9 @@ io.on('connection', (socket) => {
     }
 
     //NEW VERSION
+
+
+    //ADD DIE
     socket.on('addDie', newDie);
     function newDie(dieSize, dieType) {
         socket.broadcast.emit('addDie', dieSize, dieType);
@@ -70,6 +79,15 @@ io.on('connection', (socket) => {
         charId++;
         var cardId = 'ch' + charId;
         io.sockets.emit('newChar', charInfo, cardId);
+
+        charList[charId] = {};
+        charList[charId].id = charId;
+        charList[charId].name = charInfo.name;
+        charList[charId].type = charInfo.type;
+        if (charInfo.size) {
+            charList[charId].size = charInfo.size;
+        }
+
     }
     
     //CLEAR CHARACTERS
