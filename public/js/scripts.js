@@ -133,7 +133,7 @@ $('#controls #rollDice').click(function() {
 
 //-REMOTE
 function rollDice(dieValues, results) {
-    DICELOG.innerHTML += results;
+    DICELOG.innerHTML = results + DICELOG.innerHTML;
     var dieArray = document.getElementsByClassName('die');
     for (i=0; i<dieArray.length; i++) {
         dieArray[i].dataset.value = dieValues[i];
