@@ -26,29 +26,6 @@ io.on('connect', function(socket) {
 });
 
 io.on('connection', (socket) => {
-    // console.log("new connection: " + socket.id);
-    var newID = Math.floor(Math.random() * 999 + 1);
-    // console.log("Player ID: " + newID);
-    socket.broadcast.emit('newPlayer', newID);
-    
-
-    socket.on('dice', diceMsg);
-    socket.on('roll', updateDice);
-
-
-
-    function diceMsg(value) {
-        // console.log("newDie: " + value);
-        socket.broadcast.emit('dice', value);
-    }
-
-    function updateDice(newValues) {
-        socket.broadcast.emit('roll', newValues);
-    }
-
-    //NEW VERSION
-
-
     //ADD DIE
     socket.on('addDie', newDie);
     function newDie(dieSize, dieType) {
@@ -80,47 +57,54 @@ io.on('connection', (socket) => {
         var cardId = 'ch' + charId;
         io.sockets.emit('newChar', charInfo, cardId);
 
-        charList[charId] = {};
-        charList[charId].id = charId;
-        charList[charId].name = charInfo.name;
-        charList[charId].type = charInfo.type;
+        charList[cardId] = {};
+        charList[cardId].id = cardId;
+        charList[cardId].name = charInfo.name;
+        charList[cardId].type = charInfo.type;
         if (charInfo.size) {
-            charList[charId].size = charInfo.size;
+            charList[cardId].size = charInfo.size;
         }
-
     }
     
     //CLEAR CHARACTERS
     socket.on('clearCharList', clearCharList);
     function clearCharList() {
         io.sockets.emit('clearCharList');
+        charList = {}
     }
 
     //REMOVE SPECIFIC CHARACTERS
     socket.on('removeCharacter', removeCharacter);
     function removeCharacter(cardID) {
         io.sockets.emit('removeCharacter', cardID);
+        delete charList[cardID];
     }
-
     
-
+    //MODIFY MINION GROUP SIZE
+    socket.on('modifyMinion', modifyMinion);
+    function modifyMinion(charID, mod) {
+        io.sockets.emit('modifyMinion', charID, mod);
+        if (charList[charID].size) {
+            charList[charID].size = parseInt(charList[charID].size, 10) + parseInt(mod, 10);
+        }
+    }
 
 })
 
 
-function newConnection(socket) {
-    // console.log("new connection: " + socket.id);
+// function newConnection(socket) {
+//     // console.log("new connection: " + socket.id);
 
-    socket.on('dice', diceMsg);
-    socket.on('roll', updateDice);
+//     socket.on('dice', diceMsg);
+//     socket.on('roll', updateDice);
 
 
-    function diceMsg(value) {
-        socket.broadcast.emit('dice', value);
-    }
+//     function diceMsg(value) {
+//         socket.broadcast.emit('dice', value);
+//     }
 
-    function updateDice(newValues) {
-        socket.broadcast.emit('roll', newValues);
-    }
-}
+//     function updateDice(newValues) {
+//         socket.broadcast.emit('roll', newValues);
+//     }
+// }
 

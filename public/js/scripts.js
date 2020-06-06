@@ -9,6 +9,7 @@ function setup() {
     socket.on('newChar', newChar);
     socket.on('clearCharList', clearCharList);
     socket.on('removeCharacter', removeCharacter);
+    socket.on('modifyMinion', modifyMinion);
 }
 
 // SET GENESYS DICE
@@ -21,14 +22,6 @@ const GENESYS = {
     'difficulty':[[0,0,0,0],[-1,0,0,0],[-2,0,0,0],[0,-1,0,0],[0,-1,0,0],[0,-1,0,0],[0,-2,0,0],[-1,-1,0,0]],
     'challenge': [[0,0,0,0],[-1,0,0,0],[-1,0,0,0],[-2,0,0,0],[-2,0,0,0],[0,-1,0,0],[0,-1,0,0],[-1,-1,0,0],[-1,-1,0,0],[0,-2,0,0],[0,-2,0,0],[0,0,0,1]]
 };
-
-
-// const BOOST = [[0,0,0],[0,0,0],[1,0,0],[1,1,0],[0,2,0],[0,1,0]];
-// const ABILITY = [[0,0,0],[1,0,0],[1,0,0],[2,0,0],[0,1,0],[0,1,0],[1,1,0],[0,2,0]];
-// const PROFICIENCY = [[0,0,0],[1,0,0],[1,0,0],[2,0,0],[2,0,0],[0,1,0],[1,1,0],[1,1,0],[1,1,0],[0,2,0],[0,2,0],[0,0,1]];
-// const SETBACK = [[0,0,0],[0,0,0],[-1,0,0],[-1,0,0],[0,-1,0],[0,-1,0]];
-// const DIFFICULTY = [[0,0,0],[-1,0,0],[-2,0,0],[0,-1,0],[0,-1,0],[0,-1,0],[0,-2,0],[-1,-1,0]];
-// const CHALLENGE = [[0,0,0],[-1,0,0],[-1,0,0],[-2,0,0],[-2,0,0],[0,-1,0],[0,-1,0],[-1,-1,0],[-1,-1,0],[0,-2,0],[0,-2,0],[0,0,-1]];
 
 
 //HTML CONTAINERS
@@ -133,7 +126,7 @@ $('#controls #rollDice').click(function() {
         results += "Total: " + total + "<br />";
     }
     results += "<br /><hr /><br />";
-    DICELOG.innerHTML += results;
+    DICELOG.innerHTML = results + DICELOG.innerHTML;
     //SEND INFORMATION
     socket.emit('rollDice', dieValues, results);
 });
@@ -182,6 +175,11 @@ $('#addCharForm').click( function() {
     console.log(charInfo)
     socket.emit('addCharacter', charInfo);
     $('#charInput').modal('hide')
+
+    document.getElementById('inputName').value = "";
+    document.getElementById('inputType').value = "PC";
+    document.getElementById('groupSize').value = "";
+    document.querySelector('#minionSize div').style.display = "none";
 });
 
 $('#clearChars').click( function() {
@@ -195,9 +193,9 @@ function clearCharList() {
 }
 
 function newChar(charInfo, charID) {
-    charContainer = '<div class="card" id=' + charID + '><div class="card-body"><h5 class="card-title">' + charInfo.name + '  |  <span class="card-subtitle mb-2 ' + charInfo.type.toLowerCase() + '">' + charInfo.type + '</span></h5>'
+    charContainer = '<div class="card" id=' + charID + '><div class="card-body"><div class="closeCard cardButton">X</div><h5 class="card-title">' + charInfo.name + '  |  <span class="card-subtitle mb-2 ' + charInfo.type.toLowerCase() + '">' + charInfo.type + '</span></h5>'
     if (charInfo.type == "Minion") {
-       charContainer += '<p class="card-text">Minion Group Size: ' + charInfo.size + '</p>'
+       charContainer += '<p class="card-text">Minion Group Size: <span>' + charInfo.size + '</span></p><div class="modifyMinion add cardButton" data-mod="1">+</div><div class="modifyMinion minus cardButton" data-mod="-1">-</div>'
     }
     charContainer += '</div></div>'
     var characterList = document.getElementById('characterList');
@@ -205,23 +203,47 @@ function newChar(charInfo, charID) {
 }
 
 //REMOVE CHARACTER
-$(document).on('click', '.card', function() {
-    cardID = $(this).attr("id");
+$(document).on('click', '.closeCard', function() {
+    cardID = $(this).parent().parent().get(0);
+    cardID = cardID.id;
     console.log(cardID);
     socket.emit('removeCharacter', cardID);
 });
 
 function removeCharacter(cardID) {
-    console.log("step 2: " + cardID);
     var characterContainer = document.querySelector('.card#' + cardID);
     characterContainer.parentNode.removeChild(characterContainer);
 }
 
 //ADD GROUP SIZE TO MINION ADDITION
 $('#typeSelector').change(function() {
+    sizeContainer = document.querySelector('#minionSize div');
     if (document.getElementById('inputType').value == "Minion") {
-        document.getElementById('minionSize').innerHTML = '<label for="inputName">Minion Group Size</label><input type="text" class="form-control" id="minionSize">'
+        sizeContainer.style.display = 'block';
     } else {
-        document.getElementById('minionSize').innerHTML = ""
+        sizeContainer.style.display = 'none';
     }
+
 });
+
+//MODIFY MINION GROUP SIZE
+$(document).on('click', '.modifyMinion', function() {
+    cardID = $(this).parent().parent().get(0);
+    cardID = cardID.id;
+    mod = $(this).data("mod");
+    mod = parseInt(mod, 10);
+    console.log("mod: " + mod)
+    console.log(cardID);
+    socket.emit('modifyMinion', cardID, mod);
+});
+
+function modifyMinion(cardID, mod) {
+    var selectedCard = '#' + cardID + ' .card-text span';
+    console.log(selectedCard);
+    var minion = document.querySelector(selectedCard);
+    console.log(minion)
+    var currentSize = parseInt(minion.innerHTML, 10);
+    var newSize = currentSize + mod;
+    console.log(newSize);
+    minion.innerHTML = currentSize + mod;
+}

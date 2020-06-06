@@ -1,3 +1,15 @@
+/* Load Genesys Font */
+@font-face {
+    font-family: 'Genesys';
+    src: url('../fonts/sw-rpg-icons.eot');
+    src: url('../fonts/sw-rpg-icons.eot#iefix') format('embedded-opentype'),
+         url('../fonts/sw-rpg-icons.woff') format('woff'),
+         url('../fonts/sw-rpg-icons.ttf') format('truetype'),
+         url('../fonts/sw-rpg-icons.svg#Genesys') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Dice Button Toolbar */
 .dieBar button {
     margin: 10px 3px;
@@ -189,10 +201,39 @@
 /* MODIFY CARD DESIGN */
 .card-body {
     padding: 1rem;
+    position: relative;
+}
+
+.cardButton {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    line-height: 17px;
+    cursor: pointer;
+}
+
+.closeCard {
+    background-color: red;
+    top: 5px;
+    display: none;
+    right: 5px;
+}
+
+
+.card-body:hover .closeCard {
+    display: block;
 }
 
 .card-title {
     margin-bottom: initial;
+}
+
+.card-text {
+    margin-bottom: 0;
 }
 
 span.card-subtitle {
@@ -213,4 +254,53 @@ span.card-subtitle.mb-2.rival {
 
 span.card-subtitle.mb-2.nemesis {
     color: peru;
+}
+
+.modifyMinion.minus {
+    background-color: red;
+    bottom: 17px;
+    right: 5px;
+}
+
+.modifyMinion.add {
+    right: 30px;
+    bottom: 17px;
+    background-color: green;
+}
+
+span.dieIcon {
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+
+span.dieIcon.black {
+    background-color: black;
+}
+span.dieIcon.blue {
+    background-color: lightblue;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.turnHeader {
+    font-weight: bold;
+    font-size: larger;
+}
+
+table, table th,  table td {
+    border: 1px solid black;
+}
+
+table ul {
+    margin: 0;
+    padding-left: 24px;*
+}
+
+table {
+    margin-bottom: 18px;
 }

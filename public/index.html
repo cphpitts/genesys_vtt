@@ -9,11 +9,23 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/sw-rpg-icons.css">
 
     </head>
     <body>
         <nav class="navbar navbar-light bg-light">
             <span class="navbar-brand mb-0 h1">Genesys Tabletop</span>
+            <div class="navbar-text">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#turnModal">
+                Turn Info
+              </button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#combatModal">
+                Combat Results
+              </button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#socialModal">
+                Social Results
+              </button>
+            </div>
           </nav>
         <div class="container">
             <div class="row">
@@ -72,14 +84,14 @@
               <div class="col-sm border bg-light">
                 <div id="diceLog" style="display: block; height:600px; overflow:scroll;"></div>
               </div>
+              <div class="col-sm border bg-light">
+                <div id="fdiceLog" style="display: block; height:600px; overflow:scroll;"></div>
+              </div>
             </div>
         </div>
-          
-          <!-- TEST FOR MODAL -->
-          <!-- Button trigger modal -->
+
         
-        
-        <!-- Modal -->
+        <!-- Add Character Modal -->
         <div class="modal fade" id="charInput" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -105,24 +117,310 @@
                             </select>
                           </div>
                           <div class="form-group" id="minionSize">
-                              <!-- <label for="inputName">Minion Group Size</label>
-                              <input type="text" class="form-control" id="groupSize">     -->
+                              <div style="display:none;">
+                                <label for="inputName">Minion Group Size</label>
+                                <input type="text" class="form-control" id="groupSize">    
+                              </div>
                           </div>
                         <div type="" class="btn btn-primary" id="addCharForm">Submit</div>
                       </form>
                 </div>
                 <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                 </div>
             </div>
             </div>
         </div>
-
-          <!-- END MODAL -->
+        <!-- END ADD CHARACTER MODAL -->
        
+        <!-- Character Turn Modal -->
+        <div class="modal fade" id="turnModal" tabindex="-1" role="dialog" aria-labelledby="turnModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="turnModalLabel">Character Turn</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="turnHeader">Turn Summary</div>
+                <div class="turnText">
+                  <ul>
+                    <li>
+                      One Action
+                    </li>
+                    <li>
+                      One Maneuver
+                    </li>
+                  </ul>
+                </div>
 
-        
+                <div class="turnHeader">Maneuvers</div>
+                <div class="turnText"><p>Max of two maneuvers per turn. First is free, the second costs 2 strain, the exchange of an action (GCB 101), or may be performed after 2 adv is generated on an action.</p>
+                <ul>
+                  <li><span class="bold">Aim</span>: Add <span class="dieIcon blue"></span> to next attack.</li>
+                  <li><span class="bold">Target Limbs/Spot/Item:</span> Add <span class="dieIcon black"></span><span class="dieIcon black"></span>, or two consecutive maneuvers and <span class="dieIcon black"></span>.</li>
+                  <li><span class="bold">Guard:</span> Add <span class="dieIcon black"></span> to own attacks; increase Melee Defense by 1.</li>
+                  <li><span class="bold">Assist:</span> Add <span class="dieIcon blue"></span> to ally's next check.</li>
+                  <li><span class="bold">Interact</span> with environment or gear.</li>
+                  <li><span class="bold">Mount or dismount.</span></li>
+                  <li><span class="bold">Move:</span> One maneuver to move between Short and Medium. Two maneuvers for Medium to Long, or Long to Extreme. Stand from prone.</li>
+                  <li><span class="bold">Engage:</span> One maneuver to engage a character. One maneuever to disengage an enemy (engaged to short).</li>
+                </ul>
+              </div>
+              <div class="turnHeader">
+                Story Points
+              </div>
+              <div clas="turnText">
+                <ul>
+                  <li>Upgrade dice by 1.</li>
+                  <li>Upgrade opponent's difficulty by 1.</li>
+                  <li>Use special ability/ talent.</li>
+                  <li>Introduce new fiction.</li>
+                </ul>
+              </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div> 
+
+        <!-- Combat Results Modal -->
+        <div class="modal fade" id="combatModal" tabindex="-1" role="dialog" aria-labelledby="combatModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="combatModalLabel">Combat Die Results</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="turnHeader">Advantage / Triumph</div>
+                <div class="turnText">
+                  <table>
+                    <tr>
+                      <th>Roll</th>
+                      <th>Result</th>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-advantage"></span></i></div> or <div><i><span class="ffi-grpg-triumph"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Recover 1 strain.</li>
+                          <li>Add <span class="dieIcon blue"></span> to next check by self or ally.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-advantage"></span><span class="ffi-grpg-advantage"></span></i></div> or <div><i><span class="ffi-grpg-triumph"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Perform an immediate free maneuver (still 2 max per turn).</li>
+                          <li>Add <span class="dieIcon black"></span> to next skill check by opponent.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-advantage"></span><span class="ffi-grpg-advantage"></span><span class="ffi-grpg-advantage"></span></i></div> or <div><i><span class="ffi-grpg-triumph"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Negate enemy defense.</li>
+                          <li>Ignore environment.</li>
+                          <li>Damage a target's gear/limbs.</li>
+                          <li>Gain +1 defense for 1 turn.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-triumph"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Upgrade difficulty check of target's next check.</li>
+                          <li>Upgrade an ally's next check.</li>
+                          <li>Do something 'vital'.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-triumph"></span><span class="ffi-grpg-triumph"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Destroy a target's equipment or limb completely.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="turnHeader">Threat / Despair</div>
+                <div class="turnText">
+                  <table>
+                    <tr>
+                      <th>Roll</th>
+                      <th>Result</th>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-threat"></span></i></div> or <div><i><span class="ffi-grpg-despair"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Active character suffers 1 strain.</li>
+                          <li>Lose benefits of previous maneuver (ie Guard).</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-threat"></span><span class="ffi-grpg-threat"></span></i></div> or <div><i><span class="ffi-grpg-despair"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Opponent may immediately perform one maneuver as an incidental response.</li>
+                          <li>Add <span class="dieIcon blue"></span> to target's next check.</li>
+                          <li>Active character or ally suffers <span class="dieIcon black"></span> on next action.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-threat"></span><span class="ffi-grpg-threat"></span><span class="ffi-grpg-threat"></span></i></div> or <div><i><span class="ffi-grpg-despair"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Active character falls prone.</li>
+                          <li>Active character grants significant combat advantage to enemy.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-despair"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Weapons runs out of ammo and cannot be used for rest of encounter.</li>
+                          <li>Upgrade difficulty of an ally's next check or next check of the active character.</li>
+                          <li>The tool or weapon being used is damaged.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Die Results -->
+        <div class="modal fade" id="socialModal" tabindex="-1" role="dialog" aria-labelledby="socialModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="socialModalLabel">Social Die Results</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="turnHeader">Advantage / Triumph</div>
+                <div class="turnText">
+                  <table>
+                    <tr>
+                      <th>Roll</th>
+                      <th>Result</th>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-advantage"></span></i></div> or <div><i><span class="ffi-grpg-triumph"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Recover 1 strain.</li>
+                          <li>Add <span class="dieIcon blue"></span> to next check by self or ally.</li>
+                          <li>Notice an important detail.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-advantage"></span><span class="ffi-grpg-advantage"></span></i></div> or <div><i><span class="ffi-grpg-triumph"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Learn Strength/Flaw or the target.</li>
+                          <li>Add <span class="dieIcon black"></span> to next check by target.</li>
+                          <li>Add <span class="dieIcon black"></span> to any ally's or character's next check.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-advantage"></span><span class="ffi-grpg-advantage"></span><span class="ffi-grpg-advantage"></span></i></div> or <div><i><span class="ffi-grpg-triumph"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Learn Desire/ Fear of the target.</li>
+                          <li>Conceal your goal.</li>
+                          <li>Learn the goal of your target (if there is one).</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-triumph"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Learn a motivation of any character.</li>
+                          <li>Upgrade difficulty of target's next check.</li>
+                          <li>Upgrade next check of self or ally.</li>
+                          <li>Do something vital to encounter.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="turnHeader">Threat / Despair</div>
+                <div class="turnText">
+                  <table>
+                    <tr>
+                      <th>Roll</th>
+                      <th>Result</th>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-threat"></span></i></div> or <div><i><span class="ffi-grpg-despair"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Active character suffers 1 strain.</li>
+                          <li>Become distracted or sidetracked, results in narratively bad times.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-threat"></span><span class="ffi-grpg-threat"></span></i></div> or <div><i><span class="ffi-grpg-despair"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Accidentally reveal Strength/ Flaw.</li>
+                          <li>Add <span class="dieIcon blue"></span> to target's next check.</li>
+                          <li>Active character or ally suffers <span class="dieIcon black"></span> on next action.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-threat"></span><span class="ffi-grpg-threat"></span><span class="ffi-grpg-threat"></span></i></div> or <div><i><span class="ffi-grpg-despair"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Reveal Desire/ Fear.</li>
+                          <li>Accidentally reveal true goal of encounter.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div><i><span class="ffi-grpg-despair"></span></i></div></td>
+                      <td>
+                        <ul>
+                          <li>Reveals true motivation of their character.</li>
+                          <li>Learn a false motivation of target (active character believe's it to be true).</li>
+                          <li>Upgrade difficulty of active or ally's next check.</li>
+                          <li>Embroiled in irrelevant events and cannot act during next round.</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
         
         <script src="js/scripts.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
